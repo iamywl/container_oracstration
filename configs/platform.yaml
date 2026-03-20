@@ -1,0 +1,56 @@
+# 플랫폼 전역 설정
+
+platform:
+  name: "Container Orchestration Platform"
+  version: "1.0.0"
+
+# Docker 설정
+docker:
+  host: "unix:///var/run/docker.sock"
+  label_prefix: "orchestrator"
+
+# 모니터링 설정
+monitoring:
+  metrics_interval: 15          # 메트릭 수집 주기 (초)
+  health_check_interval: 30     # 헬스체크 주기 (초)
+  dashboard_refresh: 5          # 대시보드 갱신 주기 (초)
+
+# 알림 설정
+alerting:
+  dedup_interval: 300           # 중복 알림 억제 간격 (초)
+  thresholds:
+    cpu_warning: 80.0
+    cpu_critical: 90.0
+    memory_warning: 80.0
+    memory_critical: 90.0
+
+  # Slack 연동 (optional)
+  slack:
+    webhook_url: "${SLACK_WEBHOOK_URL}"
+
+  # Email 연동 (optional)
+  email:
+    smtp_host: "smtp.gmail.com"
+    smtp_port: 587
+    from: "platform@example.com"
+    to: "admin@example.com"
+
+# 데이터베이스
+database:
+  path: "db/platform.db"
+  metrics_retention_days: 7     # 메트릭 보관 일수
+
+# CI/CD 설정
+cicd:
+  default_environment: "dev"
+  environments:
+    - dev
+    - staging
+    - prod
+  build_dir: "build"
+  log_dir: "logs/cicd"
+
+# 백업 설정
+backup:
+  dir: "data/backups"
+  retention_days: 7

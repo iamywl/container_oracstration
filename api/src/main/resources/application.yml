@@ -1,0 +1,17 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: container-platform-api
+  datasource:
+    url: jdbc:sqlite:../db/platform.db
+    driver-class-name: org.sqlite.JDBC
+
+platform:
+  docker:
+    host: unix:///var/run/docker.sock
+  monitoring:
+    metrics-interval: 15
+  alerting:
+    slack-webhook: ${SLACK_WEBHOOK_URL:}

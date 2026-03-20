@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+dist/
+
+# Java
+*.class
+api/build/
+api/.gradle/
+api/bin/
+
+# Database
+db/*.db
+db/*.db-shm
+db/*.db-wal
+
+# Logs & Build
+logs/
+build/
+data/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+
+# Test
+.pytest_cache/

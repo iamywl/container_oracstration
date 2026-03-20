@@ -1,0 +1,71 @@
+# 서비스 정의 예시 - 웹 애플리케이션 스택
+# 이 파일을 기반으로 컨테이너를 배포한다.
+
+services:
+  # Nginx 웹 서버
+  nginx:
+    image: "nginx:1.25-alpine"
+    replicas: 2
+    ports:
+      "80/tcp": 8080
+    environment:
+      NGINX_WORKER_PROCESSES: "auto"
+    cpu_limit: 0.5
+    memory_limit: "256m"
+    labels:
+      tier: "frontend"
+      team: "platform"
+    health_check:
+      type: "http"
+      endpoint: "http://localhost:8080/"
+      interval: 30
+      timeout: 5
+      retries: 3
+    scaling:
+      min_replicas: 1
+      max_replicas: 5
+      cpu_threshold: 70.0
+      memory_threshold: 80.0
+      cooldown: 120
+
+  # Redis 캐시 서버
+  redis:
+    image: "redis:7-alpine"
+    replicas: 1
+    ports:
+      "6379/tcp": 6379
+    cpu_limit: 0.5
+    memory_limit: "512m"
+    labels:
+      tier: "cache"
+      team: "platform"
+    health_check:
+      type: "tcp"
+      endpoint: "localhost:6379"
+      interval: 15
+      timeout: 3
+      retries: 3
+
+  # PostgreSQL 데이터베이스
+  postgres:
+    image: "postgres:16-alpine"
+    replicas: 1
+    ports:
+      "5432/tcp": 5432
+    environment:
+      POSTGRES_USER: "platform"
+      POSTGRES_PASSWORD: "platform_pass"
+      POSTGRES_DB: "platform_db"
+    cpu_limit: 1.0
+    memory_limit: "1g"
+    volumes:
+      pg_data: "/var/lib/postgresql/data"
+    labels:
+      tier: "database"
+      team: "platform"
+    health_check:
+      type: "tcp"
+      endpoint: "localhost:5432"
+      interval: 20
+      timeout: 5
+      retries: 5
